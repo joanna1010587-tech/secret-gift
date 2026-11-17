@@ -4,5 +4,7 @@
  * 例如：https://script.google.com/macros/s/AKfycb.../exec
  */
 window.SG_CONFIG = {
-  API_URL: 'https://script.google.com/macros/s/AKfycbwkuBD1tG48KhaEawk-aPqrifCDWHRd-84arjd1DsLWJeyuO9Ni22SjJx6Cp7GJgbXn/exec'
+  // 部署自己的 Google Apps Script 後，把 /exec 網址貼在這裡。
+  // 這個範本刻意不連到任何人的正式試算表。
+  API_URL: ''
 };

@@ -3,8 +3,8 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { createGas } = require('../dev/gas-mock');
 
-const BEFORE_DEADLINE = new Date('2026-11-17T10:00:00+08:00');
-const AFTER_DEADLINE = new Date('2026-11-25T00:00:01+08:00');
+const BEFORE_DEADLINE = new Date('2026-12-01T10:00:00+08:00');
+const AFTER_DEADLINE = new Date('2026-12-21T00:00:01+08:00');
 
 function fresh() {
   const gas = createGas({ now: BEFORE_DEADLINE, operator: 'organizer@example.com' });
@@ -53,8 +53,8 @@ test('setup creates the four sheets with default settings', () => {
     assert.ok(gas.ss.getSheetByName(n), n + ' missing');
   }
   const s = gas.context.readSettings_();
-  assert.equal(s.event_name, 'H組聖誕趴－交換禮物大會');
-  assert.equal(s.registration_deadline, '2026-11-24 23:59');
+  assert.equal(s.event_name, 'Secret Gift 交換禮物大會');
+  assert.equal(s.registration_deadline, '2026-12-20 23:59');
   assert.equal(s.next_participant_no, '1');
   // Running setup twice must not duplicate settings rows.
   gas.context.setupSheets();
@@ -66,8 +66,8 @@ test('getEventInfo reads from Sheets and counts only ACTIVE participants', () =>
   const gas = fresh();
   let r = gas.call('getEventInfo');
   assert.deepEqual(r.data, {
-    eventName: 'H組聖誕趴－交換禮物大會', eventDate: '2026-12-18', budgetMin: 500, budgetMax: 600,
-    registrationDeadline: '2026-11-24 23:59', status: 'REGISTRATION_OPEN', participantCount: 0
+    eventName: 'Secret Gift 交換禮物大會', eventDate: '2026-12-25', budgetMin: 500, budgetMax: 600,
+    registrationDeadline: '2026-12-20 23:59', status: 'REGISTRATION_OPEN', participantCount: 0
   });
   seed(gas, 3);
   gas.ss.active = gas.ss.getSheetByName('參加名單');

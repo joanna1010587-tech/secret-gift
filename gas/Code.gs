@@ -1,5 +1,5 @@
 /**
- * Secret Gift｜H組聖誕趴－交換禮物大會
+ * Secret Gift｜開源交換禮物報名與抽籤工具
  * Google Apps Script backend (bound to the Google Sheet).
  *
  * Public web entry points: doGet / doPost (only the actions in PUBLIC_ACTIONS).
@@ -33,12 +33,12 @@ var DRAW_HEADERS = ['送禮人編號', '送禮人姓名', '收禮人編號', '�
 var LOG_HEADERS = ['log_id', 'operation', 'target_id', 'operator', 'timestamp', 'result', 'details'];
 
 var SETTINGS_DEFAULTS = [
-  ['event_id', 'H2026', '活動識別碼'],
-  ['event_name', 'H組聖誕趴－交換禮物大會', '活動名稱'],
-  ['event_date', '2026-12-18', '活動日期（YYYY-MM-DD）'],
+  ['event_id', 'GIFT-2026', '活動識別碼'],
+  ['event_name', 'Secret Gift 交換禮物大會', '活動名稱'],
+  ['event_date', '2026-12-25', '活動日期（YYYY-MM-DD；部署前請修改）'],
   ['budget_min', '500', '最低預算'],
   ['budget_max', '600', '最高預算'],
-  ['registration_deadline', '2026-11-24 23:59', '報名截止（YYYY-MM-DD HH:mm，台灣時間）'],
+  ['registration_deadline', '2026-12-20 23:59', '報名截止（YYYY-MM-DD HH:mm，台灣時間；部署前請修改）'],
   ['status', STATUS.OPEN, '活動狀態：' + ALL_STATUSES.join(' / ')],
   ['timezone', TZ, '時區（請勿修改）'],
   ['draw_id', '', '目前抽籤批次（系統產生，請勿手動修改）'],
