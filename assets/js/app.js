@@ -71,7 +71,16 @@
 
   var WD = ['日', '一', '二', '三', '四', '五', '六'];
   function ymd(str) {
-    var m = String(str || '').match(/(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})/);
+    str = String(str || '');
+    // Google Sheets date cells arrive as UTC timestamps (e.g. 2026-12-17T16:00:00.000Z): read them in Taipei time.
+    if (/T\d{2}:\d{2}/.test(str) && /(Z|[+-]\d{2}:?\d{2})$/.test(str)) {
+      var t = new Date(str);
+      if (!isNaN(t)) {
+        var tw = new Date(t.getTime() + 8 * 3600 * 1000);
+        str = tw.getUTCFullYear() + '-' + (tw.getUTCMonth() + 1) + '-' + tw.getUTCDate();
+      }
+    }
+    var m = str.match(/(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})/);
     if (!m) return null;
     var y = +m[1], mo = +m[2], d = +m[3];
     return { y: y, m: mo, d: d, w: WD[new Date(Date.UTC(y, mo - 1, d)).getUTCDay()] };
