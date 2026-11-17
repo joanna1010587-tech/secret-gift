@@ -34,7 +34,7 @@ var LOG_HEADERS = ['log_id', 'operation', 'target_id', 'operator', 'timestamp', 
 
 var SETTINGS_DEFAULTS = [
   ['event_id', 'GIFT-2026', '活動識別碼'],
-  ['event_name', 'Secret Gift 交換禮物大會', '活動名稱'],
+  ['event_name', '交換禮物大會｜Secret Gift', '活動名稱'],
   ['event_date', '2026-12-25', '活動日期（YYYY-MM-DD；部署前請修改）'],
   ['budget_min', '500', '最低預算'],
   ['budget_max', '600', '最高預算'],

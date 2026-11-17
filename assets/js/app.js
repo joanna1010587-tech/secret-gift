@@ -515,7 +515,7 @@
         '<p class="sub">' + MSG.SUCCESS + '</p>' +
       '</div>' +
       '<div class="ticket">' +
-        '<p class="ticket-label">SECRET GIFT · 交換禮物</p>' +
+        '<p class="ticket-label">SECRET GIFT · 交換禮物大會</p>' +
         '<p class="caption mt10">參加編號</p>' +
         '<p class="ticket-no">' + esc(d.participantNo) + '</p>' +
         '<div class="ticket-cut" aria-hidden="true"></div>' +
