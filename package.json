@@ -1,0 +1,10 @@
+{
+  "name": "secret-gift",
+  "version": "1.0.0",
+  "private": true,
+  "description": "H組聖誕趴－交換禮物大會：GitHub Pages 前台 + Google Apps Script / Google Sheets 後台",
+  "scripts": {
+    "dev": "node dev/server.js",
+    "test": "node --test tests/*.test.js"
+  }
+}
