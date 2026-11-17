@@ -1,4 +1,4 @@
-# Secret Gift｜H組聖誕趴－交換禮物大會
+# 交換禮物大會｜Secret Gift
 
 留下一個形容詞，換一份驚喜。
 
@@ -43,7 +43,7 @@
 
 | field | 預設值 | 說明 |
 |---|---|---|
-| event_name | H組聖誕趴－交換禮物大會 | 活動名稱 |
+| event_name | 交換禮物大會｜Secret Gift | 活動名稱 |
 | event_date | 2026-12-18 | 活動日期 |
 | budget_min / budget_max | 500 / 600 | 禮物預算 |
 | registration_deadline | 2026-11-24 23:59 | **報名截止（台灣時間），PRD 要求上線前由主辦人確認時分** |

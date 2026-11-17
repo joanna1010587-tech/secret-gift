@@ -53,7 +53,7 @@ test('setup creates the four sheets with default settings', () => {
     assert.ok(gas.ss.getSheetByName(n), n + ' missing');
   }
   const s = gas.context.readSettings_();
-  assert.equal(s.event_name, 'H組聖誕趴－交換禮物大會');
+  assert.equal(s.event_name, '交換禮物大會｜Secret Gift');
   assert.equal(s.registration_deadline, '2026-11-24 23:59');
   assert.equal(s.next_participant_no, '1');
   // Running setup twice must not duplicate settings rows.
@@ -66,7 +66,7 @@ test('getEventInfo reads from Sheets and counts only ACTIVE participants', () =>
   const gas = fresh();
   let r = gas.call('getEventInfo');
   assert.deepEqual(r.data, {
-    eventName: 'H組聖誕趴－交換禮物大會', eventDate: '2026-12-18', budgetMin: 500, budgetMax: 600,
+    eventName: '交換禮物大會｜Secret Gift', eventDate: '2026-12-18', budgetMin: 500, budgetMax: 600,
     registrationDeadline: '2026-11-24 23:59', status: 'REGISTRATION_OPEN', participantCount: 0
   });
   seed(gas, 3);

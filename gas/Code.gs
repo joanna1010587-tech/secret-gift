@@ -1,5 +1,5 @@
 /**
- * Secret Gift｜H組聖誕趴－交換禮物大會
+ * 交換禮物大會｜Secret Gift
  * Google Apps Script backend (bound to the Google Sheet).
  *
  * Public web entry points: doGet / doPost (only the actions in PUBLIC_ACTIONS).
@@ -34,7 +34,7 @@ var LOG_HEADERS = ['log_id', 'operation', 'target_id', 'operator', 'timestamp', 
 
 var SETTINGS_DEFAULTS = [
   ['event_id', 'H2026', '活動識別碼'],
-  ['event_name', 'H組聖誕趴－交換禮物大會', '活動名稱'],
+  ['event_name', '交換禮物大會｜Secret Gift', '活動名稱'],
   ['event_date', '2026-12-18', '活動日期（YYYY-MM-DD）'],
   ['budget_min', '500', '最低預算'],
   ['budget_max', '600', '最高預算'],

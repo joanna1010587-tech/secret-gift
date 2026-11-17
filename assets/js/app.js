@@ -290,7 +290,7 @@
   /* ---------------------------------------------------------------- */
 
   function viewLoading() {
-    document.title = 'Secret Gift';
+    document.title = '交換禮物大會｜Secret Gift';
     app.innerHTML = '<main class="page page-center" aria-busy="true">' +
       bud({ who: 'zing', mood: 'open', legs: false, lookY: 0.8 }, 'hop center-buddy') +
       '<p class="center-text" role="status">' + MSG.LOADING + DOTS + '</p></main>';
@@ -515,7 +515,7 @@
         '<p class="sub">' + MSG.SUCCESS + '</p>' +
       '</div>' +
       '<div class="ticket">' +
-        '<p class="ticket-label">SECRET GIFT · H組聖誕趴</p>' +
+        '<p class="ticket-label">SECRET GIFT · 交換禮物大會</p>' +
         '<p class="caption mt10">參加編號</p>' +
         '<p class="ticket-no">' + esc(d.participantNo) + '</p>' +
         '<div class="ticket-cut" aria-hidden="true"></div>' +
