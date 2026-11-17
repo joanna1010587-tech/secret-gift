@@ -49,7 +49,7 @@ function adminError(gas, fnName) {
 
 test('setup creates the four sheets with default settings', () => {
   const gas = fresh();
-  for (const n of ['Settings', 'Participants', 'DrawResults', 'OperationLog']) {
+  for (const n of ['活動設定', '參加名單', '抽籤結果', '操作紀錄']) {
     assert.ok(gas.ss.getSheetByName(n), n + ' missing');
   }
   const s = gas.context.readSettings_();
@@ -58,7 +58,7 @@ test('setup creates the four sheets with default settings', () => {
   assert.equal(s.next_participant_no, '1');
   // Running setup twice must not duplicate settings rows.
   gas.context.setupSheets();
-  const keys = gas.ss.getSheetByName('Settings').getDataRange().getValues().slice(1).map((r) => r[0]);
+  const keys = gas.ss.getSheetByName('活動設定').getDataRange().getValues().slice(1).map((r) => r[0]);
   assert.equal(new Set(keys).size, keys.length);
 });
 
@@ -70,7 +70,7 @@ test('getEventInfo reads from Sheets and counts only ACTIVE participants', () =>
     registrationDeadline: '2026-11-24 23:59', status: 'REGISTRATION_OPEN', participantCount: 0
   });
   seed(gas, 3);
-  gas.ss.active = gas.ss.getSheetByName('Participants');
+  gas.ss.active = gas.ss.getSheetByName('參加名單');
   gas.ss.active.activeRow = 2;
   admin(gas, 'deleteSelected_');
   r = gas.call('getEventInfo');
@@ -97,7 +97,7 @@ test('register writes to Sheets and returns a participant number', () => {
   assert.equal(r.data.participantNo, 'No.001');
   assert.equal(r.data.name, 'Amy');
   assert.equal(r.data.keyword, '毛毛的');
-  const list = rows(gas, 'Participants');
+  const list = rows(gas, '參加名單');
   assert.equal(list.length, 1);
   assert.equal(list[0].email_normalized, 'amy@example.com');
   assert.equal(list[0].registration_status, 'ACTIVE');
@@ -112,7 +112,7 @@ test('duplicate email (different case / spaces) is rejected; no second row', () 
   assert.equal(r.success, false);
   assert.equal(r.error.code, 'DUPLICATE');
   assert.equal(r.error.message, '這個 Email 已經報名囉！');
-  assert.equal(rows(gas, 'Participants').length, 1);
+  assert.equal(rows(gas, '參加名單').length, 1);
 });
 
 test('gmail dots / plus are NOT stripped (they count as different emails)', () => {
@@ -144,7 +144,7 @@ test('validation errors use the PRD messages and write nothing', () => {
     assert.equal(r.error.message, message);
   }
   assert.equal(register(gas, 'A'.repeat(30), 'a@example.com', '字'.repeat(20)).success, true);
-  assert.equal(rows(gas, 'Participants').length, 1);
+  assert.equal(rows(gas, '參加名單').length, 1);
 });
 
 test('registration is refused after the deadline and when the organizer closes it', () => {
@@ -157,18 +157,18 @@ test('registration is refused after the deadline and when the organizer closes i
   gas.clock.now = AFTER_DEADLINE;
   r = register(gas, 'A', 'a@example.com', 'x');
   assert.equal(r.error.code, 'CLOSED');
-  assert.equal(rows(gas, 'Participants').length, 0);
+  assert.equal(rows(gas, '參加名單').length, 0);
 });
 
 test('a failed Sheets write never reports success', () => {
   const gas = fresh();
-  gas.ss.getSheetByName('Participants').failWrites = true;
+  gas.ss.getSheetByName('參加名單').failWrites = true;
   const r = register(gas, 'A', 'a@example.com', 'x');
   assert.equal(r.success, false);
   assert.equal(r.error.code, 'SERVER_ERROR');
   assert.equal(r.error.message, '目前無法取得資料，請再試一次');
-  gas.ss.getSheetByName('Participants').failWrites = false;
-  assert.equal(rows(gas, 'Participants').length, 0);
+  gas.ss.getSheetByName('參加名單').failWrites = false;
+  assert.equal(rows(gas, '參加名單').length, 0);
   // The reserved number is skipped, never reused.
   assert.equal(register(gas, 'A', 'a@example.com', 'x').data.participantNo, 'No.002');
 });
@@ -188,11 +188,11 @@ test('getRegistration returns only that person; unknown email is NOT_FOUND', () 
 test('updateRegistration changes name/keyword, keeps id and number, adds no row', () => {
   const gas = fresh();
   seed(gas, 2);
-  const before = rows(gas, 'Participants')[0];
+  const before = rows(gas, '參加名單')[0];
   gas.clock.now = new Date(BEFORE_DEADLINE.getTime() + 60000);
   const r = gas.call('updateRegistration', { email: 'friend1@example.com', name: '新名字', keyword: '軟綿綿的' });
   assert.equal(r.success, true);
-  const after = rows(gas, 'Participants');
+  const after = rows(gas, '參加名單');
   assert.equal(after.length, 2);
   assert.equal(after[0].participant_id, before.participant_id);
   assert.equal(after[0].participant_no, 'No.001');
@@ -208,7 +208,7 @@ test('update is refused after the deadline even from a stale page', () => {
   gas.clock.now = AFTER_DEADLINE;
   const r = gas.call('updateRegistration', { email: 'friend1@example.com', name: 'X', keyword: 'Y' });
   assert.equal(r.error.code, 'CLOSED');
-  assert.equal(rows(gas, 'Participants')[0].name, '朋友1');
+  assert.equal(rows(gas, '參加名單')[0].name, '朋友1');
   assert.equal(gas.call('getRegistration', { email: 'friend1@example.com' }).data.canEdit, false);
 });
 
@@ -251,8 +251,8 @@ test('two people are paired with each other', () => {
   seed(gas, 2);
   setStatus(gas, 'REGISTRATION_CLOSED');
   admin(gas, 'runDraw_');
-  const people = rows(gas, 'Participants');
-  const pairs = rows(gas, 'DrawResults');
+  const people = rows(gas, '參加名單');
+  const pairs = rows(gas, '抽籤結果');
   assert.equal(pairs.length, 2);
   const a = pairs.find((p) => p.sender_id === people[0].participant_id);
   assert.equal(a.receiver_id, people[1].participant_id);
@@ -267,13 +267,13 @@ test('draw stores a complete valid result, sets DRAW_READY, and does not publish
   const s = gas.context.readSettings_();
   assert.equal(s.status, 'DRAW_READY');
   assert.match(s.draw_id, /^D-/);
-  const people = rows(gas, 'Participants');
-  const pairs = rows(gas, 'DrawResults');
+  const people = rows(gas, '參加名單');
+  const pairs = rows(gas, '抽籤結果');
   assert.deepEqual(Array.from(gas.context.validatePairs_(pairs, people)), []);
   pairs.forEach((p) => assert.equal(p.draw_id, s.draw_id));
   assert.equal(gas.call('getMyAssignment', { email: 'friend1@example.com' }).error.code, 'PENDING');
-  assert.ok(gas.ss.getSheetByName('DrawResults').protections.length >= 1, 'sheet should be warning-protected');
-  assert.ok(rows(gas, 'OperationLog').some((l) => l.operation === 'RUN_DRAW' && l.result === 'SUCCESS'));
+  assert.ok(gas.ss.getSheetByName('抽籤結果').protections.length >= 1, 'sheet should be warning-protected');
+  assert.ok(rows(gas, '操作紀錄').some((l) => l.operation === 'RUN_DRAW' && l.result === 'SUCCESS'));
 });
 
 test('cancelling the confirmation changes nothing', () => {
@@ -282,7 +282,7 @@ test('cancelling the confirmation changes nothing', () => {
   setStatus(gas, 'REGISTRATION_CLOSED');
   gas.ui.answers.push('NO');
   assert.equal(adminError(gas, 'runDraw_').code, 'CANCELLED');
-  assert.equal(rows(gas, 'DrawResults').length, 0);
+  assert.equal(rows(gas, '抽籤結果').length, 0);
   assert.equal(gas.context.readSettings_().status, 'REGISTRATION_CLOSED');
 });
 
@@ -311,8 +311,8 @@ test('publish refuses results that no longer match the participants', () => {
   seed(gas, 4);
   setStatus(gas, 'REGISTRATION_CLOSED');
   admin(gas, 'runDraw_');
-  const target = rows(gas, 'Participants')[2];
-  gas.context.updateRecord_('Participants', target._row, { keyword: '被偷改了' });
+  const target = rows(gas, '參加名單')[2];
+  gas.context.updateRecord_('參加名單', target._row, { keyword: '被偷改了' });
   assert.match(adminError(gas, 'publishDraw_').message, /不能公布[\s\S]*形容詞已被修改/);
   assert.equal(gas.context.readSettings_().status, 'DRAW_READY');
 });
@@ -320,8 +320,8 @@ test('publish refuses results that no longer match the participants', () => {
 test('assignment returns only my keyword; fixed across queries; no receiver data', () => {
   const gas = fresh();
   drawAndPublish(gas, 6);
-  const people = rows(gas, 'Participants');
-  const pairs = rows(gas, 'DrawResults');
+  const people = rows(gas, '參加名單');
+  const pairs = rows(gas, '抽籤結果');
   for (const me of people) {
     const r1 = gas.call('getMyAssignment', { email: me.email.toUpperCase() });
     const r2 = gas.call('getMyAssignment', { email: me.email });
@@ -337,7 +337,7 @@ test('assignment returns only my keyword; fixed across queries; no receiver data
   assert.equal(gas.call('getMyAssignment', { email: 'stranger@example.com' }).error.code, 'NOT_FOUND');
   assert.equal(gas.call('getMyAssignment', { email: 'bad' }).error.code, 'INVALID_EMAIL');
   // Querying never changes the stored pairs.
-  assert.deepEqual(rows(gas, 'DrawResults'), pairs);
+  assert.deepEqual(rows(gas, '抽籤結果'), pairs);
 });
 
 test('COMPLETED still allows looking up the existing task', () => {
@@ -351,11 +351,11 @@ test('after publishing: reset, delete and clear are all blocked', () => {
   const gas = fresh();
   drawAndPublish(gas, 3);
   assert.match(adminError(gas, 'resetDraw_').message, /已公布/);
-  gas.ss.getSheetByName('Participants').activeRow = 2;
-  gas.ss.active = gas.ss.getSheetByName('Participants');
+  gas.ss.getSheetByName('參加名單').activeRow = 2;
+  gas.ss.active = gas.ss.getSheetByName('參加名單');
   assert.match(adminError(gas, 'deleteSelected_').message, /已公布/);
   assert.match(adminError(gas, 'clearTestData_').message, /已公布/);
-  assert.equal(rows(gas, 'DrawResults').length, 3);
+  assert.equal(rows(gas, '抽籤結果').length, 3);
 });
 
 /* ---------- organizer management ---------- */
@@ -370,23 +370,23 @@ test('reset clears pairs (with backup), keeps registrations, returns to CLOSED',
   assert.equal(s.status, 'REGISTRATION_CLOSED');
   assert.equal(s.draw_id, '');
   assert.equal(s.draw_timestamp, '');
-  assert.equal(rows(gas, 'DrawResults').length, 0);
-  assert.equal(rows(gas, 'Participants').length, 4);
-  const backup = gas.ss.getSheets().find((sh) => sh.name.startsWith('備份_DrawResults_'));
+  assert.equal(rows(gas, '抽籤結果').length, 0);
+  assert.equal(rows(gas, '參加名單').length, 4);
+  const backup = gas.ss.getSheets().find((sh) => sh.name.startsWith('備份_抽籤結果_'));
   assert.ok(backup && backup.hidden);
-  assert.equal(gas.ss.getSheetByName('DrawResults').protections.length, 0);
+  assert.equal(gas.ss.getSheetByName('抽籤結果').protections.length, 0);
   admin(gas, 'runDraw_'); // can draw again after reset
-  assert.equal(rows(gas, 'DrawResults').length, 4);
+  assert.equal(rows(gas, '抽籤結果').length, 4);
 });
 
 test('delete soft-deletes; email can re-register; numbers are not reused', () => {
   const gas = fresh();
   seed(gas, 3);
-  const sheet = gas.ss.getSheetByName('Participants');
+  const sheet = gas.ss.getSheetByName('參加名單');
   gas.ss.active = sheet;
   sheet.activeRow = 3; // friend2
   admin(gas, 'deleteSelected_');
-  const list = rows(gas, 'Participants');
+  const list = rows(gas, '參加名單');
   assert.equal(list[1].registration_status, 'DELETED');
   assert.ok(list[1].deleted_at);
   assert.equal(list.length, 3, 'row kept for recovery');
@@ -401,9 +401,9 @@ test('delete soft-deletes; email can re-register; numbers are not reused', () =>
 test('delete is blocked in DRAW_READY and requires selecting a participant row', () => {
   const gas = fresh();
   seed(gas, 3);
-  const sheet = gas.ss.getSheetByName('Participants');
-  gas.ss.active = gas.ss.getSheetByName('Settings');
-  assert.match(adminError(gas, 'deleteSelected_').message, /請先到 Participants/);
+  const sheet = gas.ss.getSheetByName('參加名單');
+  gas.ss.active = gas.ss.getSheetByName('活動設定');
+  assert.match(adminError(gas, 'deleteSelected_').message, /請先到「參加名單」/);
   gas.ss.active = sheet;
   sheet.activeRow = 1;
   assert.match(adminError(gas, 'deleteSelected_').message, /不是標題列/);
@@ -421,17 +421,17 @@ test('clear test data wipes registrations and pairs but keeps event settings', (
   admin(gas, 'runDraw_');
   gas.ui.answers.push({ button: 'OK', text: '不要' });
   assert.equal(adminError(gas, 'clearTestData_').code, 'CANCELLED');
-  assert.equal(rows(gas, 'Participants').length, 4);
+  assert.equal(rows(gas, '參加名單').length, 4);
   admin(gas, 'clearTestData_'); // default answer types 清除
   const s = gas.context.readSettings_();
-  assert.equal(rows(gas, 'Participants').length, 0);
-  assert.equal(rows(gas, 'DrawResults').length, 0);
+  assert.equal(rows(gas, '參加名單').length, 0);
+  assert.equal(rows(gas, '抽籤結果').length, 0);
   assert.equal(s.status, 'REGISTRATION_OPEN');
   assert.equal(s.next_participant_no, '1');
   assert.equal(s.draw_id, '');
   assert.equal(s.event_name, '測試活動名稱');
   assert.equal(s.budget_min, '500');
-  assert.ok(gas.ss.getSheets().some((sh) => sh.name.startsWith('備份_Participants_')));
+  assert.ok(gas.ss.getSheets().some((sh) => sh.name.startsWith('備份_參加名單_')));
   assert.equal(register(gas, 'A', 'a@example.com', 'x').data.participantNo, 'No.001');
 });
 
@@ -440,8 +440,8 @@ test('menu wrapper logs failures and shows the reason', () => {
   gas.context.menuRunDraw();
   const last = gas.ui.alerts[gas.ui.alerts.length - 1];
   assert.match(last.title, /未執行/);
-  assert.ok(rows(gas, 'OperationLog').some((l) => l.result === 'FAILED'));
-  assert.ok(rows(gas, 'OperationLog').every((l) => l.operator === 'organizer@example.com'));
+  assert.ok(rows(gas, '操作紀錄').some((l) => l.result === 'FAILED'));
+  assert.ok(rows(gas, '操作紀錄').every((l) => l.operator === 'organizer@example.com'));
 });
 
 /* ---------- web surface ---------- */

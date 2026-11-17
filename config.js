@@ -4,5 +4,5 @@
  * 例如：https://script.google.com/macros/s/AKfycb.../exec
  */
 window.SG_CONFIG = {
-  API_URL: ''
+  API_URL: 'https://script.google.com/macros/s/AKfycbwkuBD1tG48KhaEawk-aPqrifCDWHRd-84arjd1DsLWJeyuO9Ni22SjJx6Cp7GJgbXn/exec'
 };

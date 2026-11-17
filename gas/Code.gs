@@ -7,10 +7,10 @@
  */
 
 var SHEET = {
-  SETTINGS: 'Settings',
-  PARTICIPANTS: 'Participants',
-  DRAW: 'DrawResults',
-  LOG: 'OperationLog'
+  SETTINGS: '活動設定',
+  PARTICIPANTS: '參加名單',
+  DRAW: '抽籤結果',
+  LOG: '操作紀錄'
 };
 
 var TZ = 'Asia/Taipei';
@@ -498,7 +498,7 @@ function runDraw_(ui) {
   var participants = readParticipants_().filter(isActive_);
   var leftover = readDrawRows_().length;
   var problems = precheckDraw_(s, participants, new Date());
-  if (leftover && !s.draw_id) problems.push('DrawResults 裡還有舊資料，請先使用「重置抽籤結果」。');
+  if (leftover && !s.draw_id) problems.push('抽籤結果裡還有舊資料，請先使用「重置抽籤結果」。');
   if (problems.length) fail_('DRAW_INVALID', problems.join('\n'));
 
   confirm_(ui, '產生抽籤結果', '共 ' + participants.length + ' 位有效參加者。\n確定要產生抽籤結果嗎？（產生後不會自動公布）');
@@ -538,7 +538,7 @@ function runDraw_(ui) {
   }
   lockSheets_();
   logOperation_('RUN_DRAW', drawId, 'SUCCESS', participants.length + ' 位參加者完成配對');
-  return '抽籤完成！共 ' + pairs.length + ' 組配對，狀態已改為 DRAW_READY。\n確認 DrawResults 沒問題後，再使用「公布抽籤結果」。';
+  return '抽籤完成！共 ' + pairs.length + ' 組配對，狀態已改為 DRAW_READY。\n確認抽籤結果沒問題後，再使用「公布抽籤結果」。';
 }
 
 function publishDraw_(ui) {
@@ -579,7 +579,7 @@ function resetDraw_(ui) {
 
 function deleteSelected_(ui) {
   var sheet = ss_().getActiveSheet();
-  if (sheet.getName() !== SHEET.PARTICIPANTS) fail_('DELETE_INVALID', '請先到 Participants 工作表，點選要刪除的那一列。');
+  if (sheet.getName() !== SHEET.PARTICIPANTS) fail_('DELETE_INVALID', '請先到「參加名單」工作表，點選要刪除的那一列。');
   var row = sheet.getActiveRange().getRow();
   if (row < 2) fail_('DELETE_INVALID', '請點選參加者資料列（不是標題列）。');
   var person = readParticipants_().filter(function (p) { return p._row === row; })[0];
@@ -705,7 +705,7 @@ function setupSheets() {
     settings.getRange(statusRow + 1, 2).setDataValidation(rule);
   }
   try {
-    SpreadsheetApp.getUi().alert('初始化完成', '已建立 Settings、Participants、DrawResults、OperationLog。\n請檢查 Settings 的活動資訊與報名截止時間。', SpreadsheetApp.getUi().ButtonSet.OK);
+    SpreadsheetApp.getUi().alert('初始化完成', '已建立活動設定、參加名單、抽籤結果、操作紀錄。\n請檢查「活動設定」的活動資訊與報名截止時間。', SpreadsheetApp.getUi().ButtonSet.OK);
   } catch (e) { /* run from the editor: no UI */ }
 }
 
