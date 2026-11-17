@@ -28,7 +28,7 @@ var PARTICIPANT_HEADERS = ['participant_id', 'participant_no', 'name', 'email', 
   'registration_status', 'created_at', 'updated_at', 'deleted_at'];
 // Keep the organizer-friendly columns first. The ID columns remain at the end so
 // the program can validate exact identities even when two people use the same name.
-var DRAW_HEADERS = ['送禮人編號', '送禮人姓名', '收禮人編號', '收禮人姓名', '禮物形容詞', '配對時間',
+var DRAW_HEADERS = ['送禮人編號', '送禮人姓名', '收禮人編號', '收禮人姓名', '收禮人寫的形容詞', '配對時間',
   'draw_id', 'sender_id', 'receiver_id', 'assigned_keyword', 'created_at'];
 var LOG_HEADERS = ['log_id', 'operation', 'target_id', 'operator', 'timestamp', 'result', 'details'];
 
@@ -520,7 +520,7 @@ function runDraw_(ui) {
       '送禮人姓名': senderPerson.name,
       '收禮人編號': receiverPerson.participant_no,
       '收禮人姓名': receiverPerson.name,
-      '禮物形容詞': receiverPerson.keyword,
+      '收禮人寫的形容詞': receiverPerson.keyword,
       '配對時間': now,
       draw_id: drawId,
       sender_id: sender,

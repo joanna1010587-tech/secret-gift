@@ -278,7 +278,7 @@ test('draw stores a complete valid result, sets DRAW_READY, and does not publish
     assert.equal(p['送禮人姓名'], sender.name);
     assert.equal(p['收禮人編號'], receiver.participant_no);
     assert.equal(p['收禮人姓名'], receiver.name);
-    assert.equal(p['禮物形容詞'], receiver.keyword);
+    assert.equal(p['收禮人寫的形容詞'], receiver.keyword);
   });
   assert.equal(gas.call('getMyAssignment', { email: 'friend1@example.com' }).error.code, 'PENDING');
   assert.ok(gas.ss.getSheetByName('抽籤結果').protections.length >= 1, 'sheet should be warning-protected');
