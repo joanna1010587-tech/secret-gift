@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<title>Secret Gift OG 圖</title>
+<!-- 產生 assets/og-image.png 用：node dev/render-og.js -->
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Noto+Sans+TC:wght@500;900&display=block" rel="stylesheet">
+<style>
+  :root { --cream:#F9F5F2; --ink:#171717; --line:#DCD6D1; --yellow:#FFB900; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: var(--cream); color: var(--ink); font-family: 'Noto Sans TC', sans-serif; }
+  .grid { display: grid; grid-template-columns: 300px 600px 300px; grid-template-rows: 315px 315px; width: 1200px; height: 630px; }
+  .cell { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+  .left { border-right: 1px solid var(--line); }
+  .right { border-left: 1px solid var(--line); }
+  .top { border-bottom: 1px solid var(--line); }
+  .center { grid-column: 2; grid-row: 1 / span 2; text-align: center; gap: 0; }
+  .buddy svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .side .buddy { width: 200px; margin-bottom: -34px; }
+  .name { font-size: 20px; font-weight: 500; }
+  .name b { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; margin-left: 6px; }
+  .hero { width: 116px; margin-bottom: -10px; }
+  h1 { margin: 6px 0 0; font-weight: 900; line-height: 1.04; }
+  h1 .en { display: block; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 100px; letter-spacing: -0.03em; }
+  h1 .zh { display: block; font-size: 100px; }
+  .sub { margin: 22px 0 0; font-size: 34px; font-weight: 500; }
+  .hl { box-shadow: inset 0 -13px 0 var(--yellow); }
+  .cta { margin-top: 28px; display: inline-flex; align-items: center; gap: 12px; padding: 13px 28px; border-radius: 999px; background: var(--ink); color: var(--cream); font-size: 23px; font-weight: 500; letter-spacing: 2px; }
+</style>
+</head>
+<body>
+<div class="grid">
+  <div class="cell side left top"><div class="buddy" data-buddy='{"who":"momo","mood":"happy","legs":false}'></div><p class="name">圓圓<b>Momo</b></p></div>
+  <div class="cell center">
+    <div class="buddy hero" data-buddy='{"who":"boxi","mood":"happy","legs":false}'></div>
+    <h1><span class="en">2026 CLD</span><span class="zh">交換禮物</span></h1>
+    <p class="sub">留下一個<span class="hl">形容詞</span>，換一份驚喜</p>
+    <div class="cta">點擊連結完成報名
+      <svg width="22" height="22" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="#F9F5F2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </div>
+  <div class="cell side right top"><div class="buddy" data-buddy='{"who":"bloom","mood":"calm","legs":false}'></div><p class="name">花花<b>Bloom</b></p></div>
+  <div class="cell side left"><div class="buddy" data-buddy='{"who":"pine","mood":"wink","legs":false}'></div><p class="name">尖尖<b>Pine</b></p></div>
+  <div class="cell side right"><div class="buddy" data-buddy='{"who":"zing","mood":"wow","legs":false}'></div><p class="name">閃閃<b>Zing</b></p></div>
+</div>
+<script src="../assets/js/buddy.js"></script>
+<script>
+  document.querySelectorAll('[data-buddy]').forEach(function (el) {
+    el.innerHTML = Buddy.svg(JSON.parse(el.getAttribute('data-buddy')));
+  });
+</script>
+</body>
+</html>
