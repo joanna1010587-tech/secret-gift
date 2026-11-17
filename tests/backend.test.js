@@ -271,6 +271,15 @@ test('draw stores a complete valid result, sets DRAW_READY, and does not publish
   const pairs = rows(gas, '抽籤結果');
   assert.deepEqual(Array.from(gas.context.validatePairs_(pairs, people)), []);
   pairs.forEach((p) => assert.equal(p.draw_id, s.draw_id));
+  pairs.forEach((p) => {
+    const sender = people.find((x) => x.participant_id === p.sender_id);
+    const receiver = people.find((x) => x.participant_id === p.receiver_id);
+    assert.equal(p['送禮人編號'], sender.participant_no);
+    assert.equal(p['送禮人姓名'], sender.name);
+    assert.equal(p['收禮人編號'], receiver.participant_no);
+    assert.equal(p['收禮人姓名'], receiver.name);
+    assert.equal(p['禮物形容詞'], receiver.keyword);
+  });
   assert.equal(gas.call('getMyAssignment', { email: 'friend1@example.com' }).error.code, 'PENDING');
   assert.ok(gas.ss.getSheetByName('抽籤結果').protections.length >= 1, 'sheet should be warning-protected');
   assert.ok(rows(gas, '操作紀錄').some((l) => l.operation === 'RUN_DRAW' && l.result === 'SUCCESS'));

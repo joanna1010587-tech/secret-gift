@@ -26,7 +26,10 @@ var ALL_STATUSES = [STATUS.OPEN, STATUS.CLOSED, STATUS.READY, STATUS.PUBLISHED, 
 
 var PARTICIPANT_HEADERS = ['participant_id', 'participant_no', 'name', 'email', 'email_normalized', 'keyword',
   'registration_status', 'created_at', 'updated_at', 'deleted_at'];
-var DRAW_HEADERS = ['draw_id', 'sender_id', 'receiver_id', 'assigned_keyword', 'created_at'];
+// Keep the organizer-friendly columns first. The ID columns remain at the end so
+// the program can validate exact identities even when two people use the same name.
+var DRAW_HEADERS = ['送禮人編號', '送禮人姓名', '收禮人編號', '收禮人姓名', '禮物形容詞', '配對時間',
+  'draw_id', 'sender_id', 'receiver_id', 'assigned_keyword', 'created_at'];
 var LOG_HEADERS = ['log_id', 'operation', 'target_id', 'operator', 'timestamp', 'result', 'details'];
 
 var SETTINGS_DEFAULTS = [
@@ -510,11 +513,19 @@ function runDraw_(ui) {
   var drawId = 'D-' + Utilities.formatDate(new Date(), TZ, 'yyyyMMdd-HHmmss') + '-' + Utilities.getUuid().slice(0, 8);
   var now = nowText_();
   var pairs = ids.map(function (sender, i) {
+    var senderPerson = byId[sender];
+    var receiverPerson = byId[receivers[i]];
     return {
+      '送禮人編號': senderPerson.participant_no,
+      '送禮人姓名': senderPerson.name,
+      '收禮人編號': receiverPerson.participant_no,
+      '收禮人姓名': receiverPerson.name,
+      '禮物形容詞': receiverPerson.keyword,
+      '配對時間': now,
       draw_id: drawId,
       sender_id: sender,
       receiver_id: receivers[i],
-      assigned_keyword: byId[receivers[i]].keyword,
+      assigned_keyword: receiverPerson.keyword,
       created_at: now
     };
   });
