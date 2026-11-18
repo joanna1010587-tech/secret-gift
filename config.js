@@ -4,5 +4,7 @@
  * 例如：https://script.google.com/macros/s/AKfycb.../exec
  */
 window.SG_CONFIG = {
-  API_URL: 'https://script.google.com/macros/s/AKfycbwkuBD1tG48KhaEawk-aPqrifCDWHRd-84arjd1DsLWJeyuO9Ni22SjJx6Cp7GJgbXn/exec'
+  // 正式網站部署時由 GitHub Actions 的 APPS_SCRIPT_URL secret 產生設定。
+  // 下載或 Fork 原始碼不會連到原作者的 Google Sheet。
+  API_URL: ''
 };

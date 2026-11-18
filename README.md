@@ -2,6 +2,8 @@
 
 留下一個形容詞，換一份驚喜。
 
+> 想建立自己的活動？請從安全、無預連後端的 [Secret Gift Template](https://github.com/joanna1010587-tech/secret-gift-template) 開始，不要沿用任何人的 `config.js`。
+
 ```
 參加者的手機 ──> GitHub Pages（這個資料夾的網站）
                     │  POST（只有 5 個公開功能）
