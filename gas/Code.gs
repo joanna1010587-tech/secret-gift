@@ -32,13 +32,14 @@ var DRAW_HEADERS = ['送禮人編號', '送禮人姓名', '收禮人編號', '�
   'draw_id', 'sender_id', 'receiver_id', 'assigned_keyword', 'created_at'];
 var LOG_HEADERS = ['log_id', 'operation', 'target_id', 'operator', 'timestamp', 'result', 'details'];
 
+// These are neutral examples only. Organizers must replace them in 活動設定 before launch.
 var SETTINGS_DEFAULTS = [
-  ['event_id', 'GIFT-2026', '活動識別碼'],
-  ['event_name', '交換禮物大會｜Secret Gift', '活動名稱'],
-  ['event_date', '2026-12-25', '活動日期（YYYY-MM-DD；部署前請修改）'],
+  ['event_id', 'GIFT-DEMO', '活動識別碼（請自行修改）'],
+  ['event_name', '我的交換禮物活動', '活動名稱（請自行修改）'],
+  ['event_date', '2099-12-25', '活動日期（YYYY-MM-DD；請自行修改）'],
   ['budget_min', '500', '最低預算'],
-  ['budget_max', '600', '最高預算'],
-  ['registration_deadline', '2026-12-20 23:59', '報名截止（YYYY-MM-DD HH:mm，台灣時間；部署前請修改）'],
+  ['budget_max', '1000', '最高預算'],
+  ['registration_deadline', '2099-12-20 23:59', '報名截止（YYYY-MM-DD HH:mm，台灣時間；請自行修改）'],
   ['status', STATUS.OPEN, '活動狀態：' + ALL_STATUSES.join(' / ')],
   ['timezone', TZ, '時區（請勿修改）'],
   ['draw_id', '', '目前抽籤批次（系統產生，請勿手動修改）'],
