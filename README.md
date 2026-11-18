@@ -39,15 +39,17 @@
 
 ### 2. 確認活動設定
 
-打開 `活動設定` 工作表，檢查 `value` 欄：
+打開 `活動設定` 工作表，在 `value` 欄填入自己的活動資料。`setupSheets` 建立的內容只是範例，上線前請全部確認：
 
-| field | 預設值 | 說明 |
+| field | 由主辦人填寫 | 格式／範例 |
 |---|---|---|
-| event_name | 交換禮物大會｜Secret Gift | 活動名稱 |
-| event_date | 2026-12-18 | 活動日期 |
-| budget_min / budget_max | 500 / 600 | 禮物預算 |
-| registration_deadline | 2026-11-24 23:59 | **報名截止（台灣時間），PRD 要求上線前由主辦人確認時分** |
-| status | REGISTRATION_OPEN | 活動狀態（下拉選單） |
+| event_name | 活動名稱 | 例如：公司交換禮物大會 |
+| event_date | 活動日期 | `YYYY-MM-DD`，例如：`2027-12-24` |
+| budget_min / budget_max | 最低與最高預算 | 只填數字，例如：`500` / `1000` |
+| registration_deadline | 報名截止時間 | `YYYY-MM-DD HH:mm`，例如：`2027-12-20 23:59` |
+| status | 活動狀態 | 開放報名時選 `REGISTRATION_OPEN` |
+
+預設時區是 `Asia/Taipei`。若活動不在台灣，請同步修改 Apps Script 與試算表時區設定。
 
 `draw_id`、`draw_timestamp`、`next_participant_no` 由系統維護，請不要手動修改。
 
